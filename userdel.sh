@@ -18,8 +18,5 @@ rm -r /etc/transmission-daemon-$username
 rm /etc/default/transmission-daemon-$username
 
 rm $CONFIG_DIR/transmission/config/settings.$username.json
-rm -rf /home/$username
-
-userdel $username
 
 exit 0
