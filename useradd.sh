@@ -6,7 +6,7 @@ RPC_PORT=$3
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIG_DIR="/usr/local/opt/ezseed" #not used
-USER_HOME=$("su - $USER -c 'echo $HOME'")
+USER_HOME=$(su - $USERNAME -c 'cd ~/ && echo $HOME')
 
 #Adding user to group
 adduser $USERNAME debian-transmission

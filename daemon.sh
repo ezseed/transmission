@@ -1,6 +1,6 @@
 #!/bin/bash
-opt=$1
-username=$2
+OPT=$1
+USERNAME=$2
 daemon="transmission-daemon-$2"
 
 d_start() {
@@ -10,17 +10,17 @@ d_start() {
 		echo "$daemon is already running" >&2
 		return
 	else
-		/etc/init.d/transmission-daemon-$username $opt
+		/etc/init.d/transmission-daemon-$USERNAME $OPT
 	fi
 
 }
 
 d_stop() {
-  	/etc/init.d/transmission-daemon-$username $opt
+  	/etc/init.d/transmission-daemon-$USERNAME $OPT
 }
 
 d_restart() {
-	/etc/init.d/transmission-daemon-$username $opt
+	/etc/init.d/transmission-daemon-$USERNAME $OPT
 }
 
 case "$1" in

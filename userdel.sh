@@ -1,10 +1,8 @@
 #!/bin/bash
-
+USERNAME=$1
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIG_DIR="/usr/local/opt/ezseed"
-
-#Deleting user + transmission
-USERNAME=$1
+USER_HOME=$(su - $USERNAME -c 'cd ~/ && echo $HOME')
 
 /etc/init.d/transmission-daemon-$USERNAME stop
 

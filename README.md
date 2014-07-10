@@ -10,6 +10,8 @@ For a more powerful usage see [ezseed](https://github.com/ezseed/ezseed)
 
 ## Nodejs
 
+`passwd.sh` and `useradd.sh` are node-dependent because we need to update a `json` file. `sed`'s are awful and I have no python knowledges (but yes it could be a nice alternative !) 
+
 This module is there to be used without [ezseed](https://github.com/ezseed/ezseed) whole package. If you need to require this in a module:
 
 ```javascript
