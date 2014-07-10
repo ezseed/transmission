@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ezseed/transmission/issues"
   },
-  "homepage": "https://github.com/ezseed/transmission"
+  "homepage": "https://github.com/ezseed/transmission",
+  "dependencies": {
+    "minimist": "~0.2.0"
+  }
 }
