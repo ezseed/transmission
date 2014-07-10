@@ -1,22 +1,21 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-appdir="$(cd $DIR && cd ../../app && pwd)"
 CONFIG_DIR="/usr/local/opt/ezseed"
 
 #Deleting user + transmission
-username=$1
+USERNAME=$1
 
-/etc/init.d/transmission-daemon-$username stop
+/etc/init.d/transmission-daemon-$USERNAME stop
 
-killall -9 -u $username
+killall -9 -u $USERNAME
 
-rm /usr/bin/transmission-daemon-$username
-rm /etc/init.d/transmission-daemon-$username
-rm -r /var/lib/transmission-daemon-$username
-rm -r /etc/transmission-daemon-$username
-rm /etc/default/transmission-daemon-$username
+rm /usr/bin/transmission-daemon-$USERNAME
+rm /etc/init.d/transmission-daemon-$USERNAME
+rm -r /var/lib/transmission-daemon-$USERNAME
+rm -r /etc/transmission-daemon-$USERNAME
+rm /etc/default/transmission-daemon-$USERNAME
 
-rm $CONFIG_DIR/transmission/config/settings.$username.json
+rm $CONFIG_DIR/transmission/config/settings.$USERNAME.json
 
 exit 0

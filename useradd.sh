@@ -1,92 +1,68 @@
 #!/bin/bash
-
-username=$1
-password=$2
+#You need to restart daemon to take changes
+USERNAME=$1
+PASSWORD=$2
+RPC_PORT=$3
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-appdir="$(cd $DIR && cd ../../app && pwd)"
-CONFIG_DIR="/usr/local/opt/ezseed"
+CONFIG_DIR="/usr/local/opt/ezseed" #not used
+USER_HOME=$("su - $USER -c 'echo $HOME'")
 
-# if [ -f /etc/init.d/transmission-daemon ]
-# then
-#     echo "Stopping transmission-daemon"
-# 	/etc/init.d/transmission-daemon stop
-# else
-# 	apt-get install transmission-daemon
-# 	echo "Stopping transmission-daemon"
-# 	/etc/init.d/transmission-daemon stop
-# fi
-
-echo "Adding user to group"
-adduser $username debian-transmission
+#Adding user to group
+adduser $USERNAME debian-transmission
 #could root it, see chroot
-chown -R $username /home/$username/
-su $username -c "mkdir -p ~/downloads ~/uploads ~/incomplete"
+chown -R $USERNAME /home/$USERNAME/
+su $USERNAME -c "mkdir -p ~/downloads ~/uploads ~/incomplete"
 
-echo "Set new transmission-daemon-$username"
-cp /usr/bin/transmission-daemon /usr/bin/transmission-daemon-$username
-cp /etc/init.d/transmission-daemon /etc/init.d/transmission-daemon-$username
-cp -a /var/lib/transmission-daemon /var/lib/transmission-daemon-$username
-cp -a /etc/transmission-daemon /etc/transmission-daemon-$username
-cp /etc/default/transmission-daemon /etc/default/transmission-daemon-$username
+#Set new transmission-daemon-$USERNAME
+cp /usr/bin/transmission-daemon /usr/bin/transmission-daemon-$USERNAME
+cp /etc/init.d/transmission-daemon /etc/init.d/transmission-daemon-$USERNAME
+cp -a /var/lib/transmission-daemon /var/lib/transmission-daemon-$USERNAME
+cp -a /etc/transmission-daemon /etc/transmission-daemon-$USERNAME
+cp /etc/default/transmission-daemon /etc/default/transmission-daemon-$USERNAME
 
 
-sed 's/NAME=transmission-daemon/NAME=transmission-daemon-'$username'/' < /etc/init.d/transmission-daemon-$username >/etc/init.d/transmission-daemon-$username.new
+sed 's/NAME=transmission-daemon/NAME=transmission-daemon-'$USERNAME'/' < /etc/init.d/transmission-daemon-$USERNAME >/etc/init.d/transmission-daemon-$USERNAME.new
 
-mv /etc/init.d/transmission-daemon-$username.new /etc/init.d/transmission-daemon-$username
+mv /etc/init.d/transmission-daemon-$USERNAME.new /etc/init.d/transmission-daemon-$USERNAME
 
-sed 's/USER=debian-transmission/USER='$username'/' < /etc/init.d/transmission-daemon-$username > /etc/init.d/transmission-daemon-$username.new
+sed 's/USER=debian-transmission/USER='$USERNAME'/' < /etc/init.d/transmission-daemon-$USERNAME > /etc/init.d/transmission-daemon-$USERNAME.new
 
-mv /etc/init.d/transmission-daemon-$username.new /etc/init.d/transmission-daemon-$username
+mv /etc/init.d/transmission-daemon-$USERNAME.new /etc/init.d/transmission-daemon-$USERNAME
 
-sed 's/CONFIG_DIR="\/var\/lib\/transmission-daemon\/info"/CONFIG_DIR="\/var\/lib\/transmission-daemon-'$username'\/info"/' </etc/default/transmission-daemon-$username >/etc/default/transmission-daemon-$username.new
+sed 's/CONFIG_DIR="\/var\/lib\/transmission-daemon\/info"/CONFIG_DIR="\/var\/lib\/transmission-daemon-'$USERNAME'\/info"/' </etc/default/transmission-daemon-$USERNAME >/etc/default/transmission-daemon-$USERNAME.new
 
-mv /etc/default/transmission-daemon-$username.new /etc/default/transmission-daemon-$username
+mv /etc/default/transmission-daemon-$USERNAME.new /etc/default/transmission-daemon-$USERNAME
 
-# Useful ?
-chmod 755 /usr/bin/transmission-daemon-$username
-chmod 755 /etc/init.d/transmission-daemon-$username
-chmod -R 755 /var/lib/transmission-daemon-$username
-chmod -R 755 /etc/transmission-daemon-$username
+#Repair rights
+chmod 755 /usr/bin/transmission-daemon-$USERNAME
+chmod 755 /etc/init.d/transmission-daemon-$USERNAME
+chmod -R 755 /var/lib/transmission-daemon-$USERNAME
+chmod -R 755 /etc/transmission-daemon-$USERNAME
 chmod 755 /etc/default/transmission-daemon
 
-# echo "Editing settings"
+$CONFIG_FILE = $USER_HOME/.settings.$USERNAME.json
 
-#cp $userdir/config/settings.default.json $userdir/config/settings.json
+ln -sf /etc/transmission-daemon-$USERNAME/settings.json $CONFIG_FILE
+ln -sf /etc/transmission-daemon-$USERNAME/settings.json /var/lib/transmission-daemon-$USERNAME/info/settings.json
 
-# sed -i -e 's/"download-dir": ""/"download-dir": "\/home\/seedbox\/users\/'$username'\/downloads"/g' $userdir/config/settings.json
-# sed -i -e 's/"peer-port": /"peer-port": '$peerport'/g' $userdir/config/settings.json
-# sed -i -e 's/"rpc-password": ""/"rpc-password": "'$pass'"/g' $userdir/config/settings.json
-# sed -i -e 's/"rpc-port": /"rpc-port": '$rpcport'/g' $userdir/config/settings.json
-# sed -i -e 's/"rpc-username": ""/"rpc-username": "'$username'"/g' $userdir/config/settings.json
+#Editing settings
+node $DIR/json.js $CONFIG_FILE incomplete-dir-enabled true
+node $DIR/json.js $CONFIG_FILE incomplete-dir "$USER_HOME/incomplete"
+node $DIR/json.js $CONFIG_FILE download-dir "$USER_HOME/downloads"
+node $DIR/json.js $CONFIG_FILE peer-port-random-on-start true
+node $DIR/json.js $CONFIG_FILE lpd-enabled true
+node $DIR/json.js $CONFIG_FILE peer-socket-tos 'lowcost'
+node $DIR/json.js $CONFIG_FILE rpc-password $PASSWORD
+node $DIR/json.js $CONFIG_FILE rpc-enabled true
+node $DIR/json.js $CONFIG_FILE rpc-whitelist-enabled false
+node $DIR/json.js $CONFIG_FILE rpc-authentication-required true
+node $DIR/json.js $CONFIG_FILE rpc-username $USERNAME
 
-#mv $userdir/config/settings.json /etc/transmission-daemon-$username/settings.json
+chown -R $USERNAME:$USERNAME /var/lib/transmission-daemon-$USERNAME
+chown -R $USERNAME:$USERNAME /etc/transmission-daemon-$USERNAME
 
-#ln -sf /var/lib/transmission-daemon-$username/info/settings.json /etc/transmission-daemon-$username/settings.json
-
-#Symlink to node app
-#ln -sf /var/lib/transmission-daemon-$username/info/settings.json $appdir/scripts/transmission/config/settings.$username.json
-#cp /etc/transmission-daemon-$username/settings.json $appdir/scripts/transmission/config/settings.$username.json
-
-ln -sf /etc/transmission-daemon-$username/settings.json $CONFCONFIG_DIR/transmission/config/settings.$username.json
-ln -sf /etc/transmission-daemon-$username/settings.json /var/lib/transmission-daemon-$username/info/settings.json
-#ln -sf /var/lib/transmission-daemon-$username/info/settings.json /etc/transmission-daemon-$username/settings.json
-
-chown -R $username:$username /var/lib/transmission-daemon-$username
-chown -R $username:$username /etc/transmission-daemon-$username
-
-chmod 775 $CONFIG_DIR/transmission/config/settings.$username.json
-chmod -R 755 /etc/transmission-daemon-$username
-
-#echo "Adding user config username/peerport/rpcport/daysleft"
-#echo -e "$username;$peerport;$rpcport;30"  >> $userdir/config/users
-
-# echo "Starting Transmission"
-#/etc/init.d/transmission-daemon-$username start
-#/etc/init.d/transmission-daemon-$username stop
-
-#update-rc.d ./daemons.sh defaults
-
-echo "Done"
+chmod 775 $USER_HOME/.settings.$USERNAME.json
+chmod -R 755 /etc/transmission-daemon-$USERNAME
 
 exit 0
