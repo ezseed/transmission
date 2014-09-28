@@ -1,6 +1,6 @@
 {
   "name": "ezseed-transmission",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Ezseed transmission shell bindings",
   "main": "index.js",
   "scripts": {
