@@ -4,7 +4,8 @@
   "description": "Ezseed transmission shell bindings",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "wget --no-check-certificate http://stedolan.github.io/jq/download/linux64/jq jq"
   },
   "repository": {
     "type": "git",
