@@ -2,8 +2,8 @@
 
 ## API:
   - `install.sh` - installs transmission
-  - `useradd.sh username password` - creates a transmission user, system user should exists and `settings.json` need to be copied to `CONFIG_DIR/settings.username.json`
-  - `userdel.sh username` - deletes transmission user, don't delete user system
+  - `useradd.sh username password` - creates a transmission user, system user should exists
+  - `userdel.sh username` - deletes transmission user, doesn't delete user system
   - `daemon.sh start|stop|restart username` - daemonize user transmission
 
 For a more powerful usage see [ezseed](https://github.com/ezseed/ezseed)
