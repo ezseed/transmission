@@ -1,11 +1,11 @@
 {
   "name": "ezseed-transmission",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Ezseed transmission shell bindings",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "wget --no-check-certificate http://stedolan.github.io/jq/download/linux64/jq" 
+    "install": "wget --no-check-certificate http://stedolan.github.io/jq/download/linux64/jq"
   },
   "repository": {
     "type": "git",
