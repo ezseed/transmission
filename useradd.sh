@@ -47,17 +47,7 @@ ln -sf /etc/transmission-daemon-$USERNAME/settings.json $CONFIG_FILE
 ln -sf /etc/transmission-daemon-$USERNAME/settings.json /var/lib/transmission-daemon-$USERNAME/info/settings.json
 
 #Editing settings
-node $DIR/json.js $CONFIG_FILE incomplete-dir-enabled true
-node $DIR/json.js $CONFIG_FILE incomplete-dir "$USER_HOME/incomplete"
-node $DIR/json.js $CONFIG_FILE download-dir "$USER_HOME/downloads"
-node $DIR/json.js $CONFIG_FILE peer-port-random-on-start true
-node $DIR/json.js $CONFIG_FILE lpd-enabled true
-node $DIR/json.js $CONFIG_FILE peer-socket-tos 'lowcost'
-node $DIR/json.js $CONFIG_FILE rpc-password $PASSWORD
-node $DIR/json.js $CONFIG_FILE rpc-enabled true
-node $DIR/json.js $CONFIG_FILE rpc-whitelist-enabled false
-node $DIR/json.js $CONFIG_FILE rpc-authentication-required true
-node $DIR/json.js $CONFIG_FILE rpc-username $USERNAME
+cat $CONFIG_FILE | ./jq '.["incomplete-dir-enabled"]=true | .["incomplete-dir"]="'$USER_HOME'/incomplete" | .["download-dir"]="'$USER_HOME'/downloads" | .["peer-port-random-on-start"]=true | .["lpd-enabled"]=true | .["peer-socket-tos"]="lowcost" | .["rpc-password"]="'$PASSWORD'" | .["rpc-enabled"]=true | .["rpc-whitelist-enabled"]=false | .["rpc-authentication-required"]=true | .["rpc-username"]="'$USERNAME'"' > $CONFIG_FILE
 
 chown -R $USERNAME:$USERNAME /var/lib/transmission-daemon-$USERNAME
 chown -R $USERNAME:$USERNAME /etc/transmission-daemon-$USERNAME
