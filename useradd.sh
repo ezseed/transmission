@@ -41,10 +41,10 @@ chmod -R 755 /var/lib/transmission-daemon-$USERNAME
 chmod -R 755 /etc/transmission-daemon-$USERNAME
 chmod 755 /etc/default/transmission-daemon
 
-CONFIG_FILE=$USER_HOME/.settings.$USERNAME.json
+CONFIG_FILE=/etc/transmission-daemon-$USERNAME/settings.json
 
-ln -sf /etc/transmission-daemon-$USERNAME/settings.json $CONFIG_FILE
-ln -sf /etc/transmission-daemon-$USERNAME/settings.json /var/lib/transmission-daemon-$USERNAME/info/settings.json
+ln -sf $CONFIG_FILE $USER_HOME/.settings.$USERNAME.json
+ln -sf $CONFIG_FILE /var/lib/transmission-daemon-$USERNAME/info/settings.json
 
 #Editing settings
 chmod +x $DIR/jq
