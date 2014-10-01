@@ -47,8 +47,7 @@ ln -sf $CONFIG_FILE $USER_HOME/.settings.$USERNAME.json
 ln -sf $CONFIG_FILE /var/lib/transmission-daemon-$USERNAME/info/settings.json
 
 #Editing settings
-chmod +x $DIR/jq
-cat $CONFIG_FILE | $DIR/jq '.["incomplete-dir-enabled"]=true | .["incomplete-dir"]="'$USER_HOME'/incomplete" | .["download-dir"]="'$USER_HOME'/downloads" | .["peer-port-random-on-start"]=true | .["lpd-enabled"]=true | .["peer-socket-tos"]="lowcost" | .["rpc-password"]="'$PASSWORD'" | .["rpc-enabled"]=true | .["rpc-whitelist-enabled"]=false | .["rpc-authentication-required"]=true | .["rpc-username"]="'$USERNAME'"' > $CONFIG_FILE
+python $DIR/settings.py $USERNAME $PASSWORD $USER_HOME $RPC_PORT
 
 chown -R $USERNAME:$USERNAME /var/lib/transmission-daemon-$USERNAME
 chown -R $USERNAME:$USERNAME /etc/transmission-daemon-$USERNAME

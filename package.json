@@ -4,8 +4,7 @@
   "description": "Ezseed transmission shell bindings",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "wget $(node jq.js)"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
