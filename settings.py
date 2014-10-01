@@ -13,7 +13,7 @@ Usage:
     ❯ python ./settings.py test 123 /home/test 8888
 """
 
-# print 'Argument List:', str(sys.argv)
+print 'Argument List:', str(sys.argv)
 
 settingsFile = open('/etc/transmission-daemon-'+sys.argv[1]+'/settings.json', 'r+')
 
@@ -31,8 +31,9 @@ d['rpc-authentication-required'] = True
 d['rpc-username'] = sys.argv[1]
 d['rpc-port'] = sys.argv[4]
 
-settingsFile.seek(0, 0)
+settingsFile.seek(0)
+settingsFile.truncate()
 
-json.dump(d, settingsFile)
+json.dump(d, settingsFile, indent=4)
 
 settingsFile.close()
