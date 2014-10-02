@@ -27,7 +27,7 @@ d['rpc-enabled'] = True
 d['rpc-whitelist-enabled'] = False
 d['rpc-authentication-required'] = True
 d['rpc-username'] = sys.argv[1]
-d['rpc-port'] = sys.argv[4]
+d['rpc-port'] = int(sys.argv[4])
 
 settingsFile.seek(0)
 settingsFile.truncate()
