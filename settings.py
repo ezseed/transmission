@@ -13,8 +13,6 @@ Usage:
     ❯ python ./settings.py test 123 /home/test 8888
 """
 
-print 'Argument List:', str(sys.argv)
-
 settingsFile = open('/etc/transmission-daemon-'+sys.argv[1]+'/settings.json', 'r+')
 
 d = json.load(settingsFile)
