@@ -52,6 +52,7 @@ python $DIR/settings.py $USERNAME $PASSWORD $USER_HOME $RPC_PORT
 chown -R $USERNAME:$USERNAME /var/lib/transmission-daemon-$USERNAME
 chown -R $USERNAME:$USERNAME /etc/transmission-daemon-$USERNAME
 
+chmod 775 $CONFIG_FILE
 chmod 775 $USER_HOME/.settings.$USERNAME.json
 chmod -R 755 /etc/transmission-daemon-$USERNAME
 
