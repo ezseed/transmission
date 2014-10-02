@@ -43,7 +43,7 @@ chmod 755 /etc/default/transmission-daemon
 
 CONFIG_FILE=/etc/transmission-daemon-$USERNAME/settings.json
 
-ln -sf $CONFIG_FILE $USER_HOME/.settings.$USERNAME.json
+ln -sf $CONFIG_FILE $USER_HOME/.settings.json
 ln -sf $CONFIG_FILE /var/lib/transmission-daemon-$USERNAME/info/settings.json
 
 #Editing settings
@@ -53,7 +53,7 @@ chown -R $USERNAME:$USERNAME /var/lib/transmission-daemon-$USERNAME
 chown -R $USERNAME:$USERNAME /etc/transmission-daemon-$USERNAME
 
 chmod 775 $CONFIG_FILE
-chmod 775 $USER_HOME/.settings.$USERNAME.json
-chmod -R 755 /etc/transmission-daemon-$USERNAME
+chmod 775 $USER_HOME/.settings.json
+chmod -R 775 /etc/transmission-daemon-$USERNAME
 
 exit 0
