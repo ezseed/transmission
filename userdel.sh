@@ -4,6 +4,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIG_DIR="/usr/local/opt/ezseed"
 USER_HOME=$(su - $USERNAME -c 'cd ~/ && echo $HOME')
 
+if [ ! -e /etc/init.d/transmission-daemon ]
+then
+    echo "Transmission is not installed"
+    exit 1
+fi
+
 /etc/init.d/transmission-daemon-$USERNAME stop
 
 killall -9 -u $USERNAME

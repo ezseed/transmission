@@ -8,6 +8,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CONFIG_DIR="/usr/local/opt/ezseed" #not used
 USER_HOME=$(su - $USERNAME -c 'cd ~/ && echo $HOME')
 
+if [ ! -e /etc/init.d/transmission-daemon ]
+then
+    echo "Transmission is not installed"
+    exit 1
+fi
+
 #Adding user to group
 adduser $USERNAME debian-transmission
 #could root it, see chroot
