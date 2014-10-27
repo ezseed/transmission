@@ -20,6 +20,6 @@ rm -r /var/lib/transmission-daemon-$USERNAME
 rm -r /etc/transmission-daemon-$USERNAME
 rm /etc/default/transmission-daemon-$USERNAME
 
-rm $USER_HOME/.settings.$USERNAME.json
+rm $USER_HOME/.settings.json
 
 exit 0
