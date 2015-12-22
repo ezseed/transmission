@@ -19,6 +19,7 @@ rm /etc/init.d/transmission-daemon-$USERNAME
 rm -r /var/lib/transmission-daemon-$USERNAME
 rm -r /etc/transmission-daemon-$USERNAME
 rm /etc/default/transmission-daemon-$USERNAME
+rm /lib/systemd/system/transmission-daemon-$USERNAME.service
 
 rm $USER_HOME/.settings.json
 
