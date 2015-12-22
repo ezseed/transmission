@@ -44,7 +44,7 @@ sed 's/User=debian-transmission/User='$USERNAME'/' < /lib/systemd/system/transmi
 
 mv /lib/systemd/system/transmission-daemon-$USERNAME.service.new /lib/systemd/system/transmission-daemon-$USERNAME.service
 
-sed 's/ExecStart=/usr/bin/transmission-daemon -f --log-error/ExecStart=/usr/bin/transmission-daemon -f --log-error -g \/var\/lib\/transmission-daemon-'$USERNAME'\/info/' < /lib/systemd/system/transmission-daemon-$USERNAME.service > /lib/systemd/system/transmission-daemon-$USERNAME.service.new
+sed 's/ExecStart=\/usr\/bin\/transmission-daemon -f --log-error/ExecStart=\/usr\/bin\/transmission-daemon -f --log-error -g \/var\/lib\/transmission-daemon-'$USERNAME'\/info/' < /lib/systemd/system/transmission-daemon-$USERNAME.service > /lib/systemd/system/transmission-daemon-$USERNAME.service.new
 
 mv /lib/systemd/system/transmission-daemon-$USERNAME.service.new /lib/systemd/system/transmission-daemon-$USERNAME.service
 
