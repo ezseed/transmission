@@ -26,7 +26,7 @@ cp /etc/init.d/transmission-daemon /etc/init.d/transmission-daemon-$USERNAME
 cp -a /var/lib/transmission-daemon /var/lib/transmission-daemon-$USERNAME
 cp -a /etc/transmission-daemon /etc/transmission-daemon-$USERNAME
 cp /etc/default/transmission-daemon /etc/default/transmission-daemon-$USERNAME
-
+cp /lib/systemd/system/transmission-daemon.service /lib/systemd/system/transmission-daemon-$USERNAME.service
 
 sed 's/NAME=transmission-daemon/NAME=transmission-daemon-'$USERNAME'/' < /etc/init.d/transmission-daemon-$USERNAME >/etc/init.d/transmission-daemon-$USERNAME.new
 
@@ -40,12 +40,21 @@ sed 's/CONFIG_DIR="\/var\/lib\/transmission-daemon\/info"/CONFIG_DIR="\/var\/lib
 
 mv /etc/default/transmission-daemon-$USERNAME.new /etc/default/transmission-daemon-$USERNAME
 
+sed 's/User=debian-transmission/User='$USERNAME'/' < /lib/systemd/system/transmission-daemon-$USERNAME.service > /lib/systemd/system/transmission-daemon-$USERNAME.service.new
+
+mv /lib/systemd/system/transmission-daemon-$USERNAME.service.new /lib/systemd/system/transmission-daemon-$USERNAME.service
+
+sed 's/ExecStart=\/usr\/bin\/transmission-daemon -f --log-error/ExecStart=\/usr\/bin\/transmission-daemon -f --log-error -g \/var\/lib\/transmission-daemon-'$USERNAME'\/info/' < /lib/systemd/system/transmission-daemon-$USERNAME.service > /lib/systemd/system/transmission-daemon-$USERNAME.service.new
+
+mv /lib/systemd/system/transmission-daemon-$USERNAME.service.new /lib/systemd/system/transmission-daemon-$USERNAME.service
+
 #Repair rights
 chmod 755 /usr/bin/transmission-daemon-$USERNAME
 chmod 755 /etc/init.d/transmission-daemon-$USERNAME
 chmod -R 755 /var/lib/transmission-daemon-$USERNAME
 chmod -R 755 /etc/transmission-daemon-$USERNAME
 chmod 755 /etc/default/transmission-daemon
+chmod 644 /lib/systemd/system/transmission-daemon-$USERNAME.service
 
 CONFIG_FILE=/etc/transmission-daemon-$USERNAME/settings.json
 
